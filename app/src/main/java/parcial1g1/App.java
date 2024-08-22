@@ -1,63 +1,51 @@
+package parcial;
+
+import java.util.Scanner;
+
 public class App {
-
-    // Función para convertir metros a kilómetros
- public static double convertirMetrosAKilometros(double metros) {
-    return metros / 1000.0;
-}
-// Función para calcular el consumo de combustible dado los kilómetros recorridos
-public static double calcularConsumoCombustible(double kilometros) {
-     
-    return kilometros * 55 / 750;
-}
-
     public static void main(String[] args) {
-     
-        Scanner scanner = new Scanner(System.in);
+        try {
+            int cantidadVehiculos = 0;
+            float distanciaRecorridaMetros = 0;
+            float consumoTotalCombustible = 0; //almacenar el consumo total
+            float consumoVehiculoCombustible = 0;
+            float kmRecorridos = 0;
 
-    // Preguntar cuántos vehículos participaron
-    
-    System.out.print("Ingrese la cantidad de vehículos: ");
-    int cantidadVehiculos = scanner.nextInt();
-    double consumoTotal = 0.0;
-    
-    // Iterar sobre la cantidad de vehículos
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Cuantos vehículos participaron"); // Preguntar al usuario cuántos vehículos participaron
+            cantidadVehiculos = sc.nextInt();
 
-    for (int i = 1; i <= cantidadVehiculos; i++) {
-        System.out.print("Ingrese la distancia recorrida en metros por el vehículo " + i + ": ");
-        double metrosRecorridos = scanner.nextDouble();
-        
-        // Validar que la distancia sea un número positivo
+            for (int i = 1; i <= cantidadVehiculos; i++) { // Iterar los vehículos
+                System.out.print("Ingrese la distancia recorrida por el vehículo " + i + " en metros: ");
+                distanciaRecorridaMetros = sc.nextFloat();
 
-        if (metrosRecorridos <= 0) {
-            System.out.println("La distancia recorrida debe ser un número positivo. Intente de nuevo.");
-            i--; // Decrementar el contador para repetir la entrada
+                while (distanciaRecorridaMetros <= 0) { // Validar que la Distancia sea positiva
+                    System.out.print("La distancia debe ser un número positivo. Ingrese nuevamente: ");
+                    distanciaRecorridaMetros = sc.nextFloat();
+                }
+                //convertir la distancia de metros a kilómetros
+                kmRecorridos = distanciaRecorridaMetros / 1000;
+                System.out.println("vehículo: " + i + " " + (kmRecorridos) + " km");
 
-            continue;
+                // Calcular el consumo de combustible para cada vehículo
+                consumoVehiculoCombustible = calcularConsumoCombustible(kmRecorridos);
+                System.out.println(consumoVehiculoCombustible + " Litros de combustible consumidos: ");
+
+                consumoTotalCombustible += consumoVehiculoCombustible;
+            }
+
+            System.out.println("Consumo total de combustible por los " + cantidadVehiculos + " vehículos: " + consumoTotalCombustible + " litros");
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
         }
-        // Convertir metros a kilómetros usando la función
-
-        double kilometrosRecorridos = convertirMetrosAKilometros(metrosRecorridos);
-        // Calcular el consumo de combustible usando la función
-
-        double consumoCombustible = calcularConsumoCombustible(kilometrosRecorridos);
-        // Mostrar resultados para el vehículo actual
-
-        System.out.println("Vehículo " + i + ":");
-        System.out.println("Kilómetros recorridos: " + kilometrosRecorridos);
-        System.out.println("Litros de gasolina consumidos: " + consumoCombustible);
-        // Acumular el consumo total
-
-        consumoTotal += consumoCombustible;
     }
-    // Mostrar el consumo total de todos los vehículos
 
-    System.out.println("Consumo total de combustible de todos los vehículos: " + consumoTotal + " litros");
-    scanner.close();
-}
-         
-
-        
-    
-    
-
+    public static float calcularConsumoCombustible(float kmRecorridos) {
+        try {
+            return ((kmRecorridos * 55) / 750);
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+    //------------------------------------------------------------------
 }
